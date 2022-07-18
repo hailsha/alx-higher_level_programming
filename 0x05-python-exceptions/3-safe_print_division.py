@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-def magic_calculation(a, b):
-    result = 0
-    for i in range(1, 3):
-        try:
-            if (i > a):
-                raise Exception("Too far")
-            else:
-                result += (a ** b) / i
-        except:
-            result = b + a
-            break
-    return (result)
+def safe_print_division(a, b):
+    quotient = 0
+    try:
+        quotient = a / b
+    except ZeroDivisionError:
+        quotient = None
+    finally:
+        print("Inside result: {}".format(quotient))
+        return quotient
