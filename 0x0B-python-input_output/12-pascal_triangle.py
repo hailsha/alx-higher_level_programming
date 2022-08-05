@@ -18,4 +18,4 @@ def pascal_triangle(n):
                     a[i].append(a[i - 1][j] + a[i - 1][j - 1])
             elif j == i:
                 a[i].append(1)
-    return
+    return a
