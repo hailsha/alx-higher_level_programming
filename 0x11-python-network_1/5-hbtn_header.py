@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 """
-Python script that sends a request to the URL and
-displays the value of a variable in the response header
+Get the X-Request-ID of the passed in website argument.
+Requests version
 """
 import requests
 import sys
 
 
-if __name__ == "__main__":
-    try:
-        r = requests.get(sys.argv[1])
-        print(r.headers['X-Request-Id'])
-    except:
-        pass
+def response_header():
+    req = requests.get(sys.argv[1])
+    print(req.headers.get('X-Request-ID'))
+
+if __name__ == '__main__':
+    response_header()
