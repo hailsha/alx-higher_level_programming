@@ -1,27 +1,30 @@
 #!/usr/bin/python3
 """
-Python script that sends a POST request to the URL and
-to an URL with the letter as a parameter
+Send a post request to a specific url and display the results depending
+on the passed in parameter and if the response is JSON formatted
 """
 import requests
 import sys
 
 
-if __name__ == "__main__":
-    data = {'q': ""}
+def search_api():
+    if len(sys.argv) == 1:
+        q = ""
+    else:
+        q = sys.argv[1]
+
+    new_dict = {'q': q}
+    req = requests.post("http://0.0.0.0:5000/search_user", new_dict)
 
     try:
-        data['q'] = sys.argv[1]
-    except:
-        pass
-
-    r = requests.post('http://0.0.0.0:5000/search_user', data)
-
-    try:
-        json_o = r.json()
-        if not json_o:
-            print("No result")
+        user = req.json()
+        if user:
+            print("[{}] {}".format(user.get('id'), user.get('name')))
         else:
-            print("[{}] {}".format(json_o.get('id'), json_o.get('name')))
+            print("No result")
     except:
         print("Not a valid JSON")
+
+
+if __name__ == '__main__':
+    search_api()
