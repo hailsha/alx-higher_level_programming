@@ -1,30 +1,26 @@
 #!/usr/bin/python3
 """
-Send a post request to a specific url and display the results depending
-on the passed in parameter and if the response is JSON formatted
+given letter as param, POST to http://0.0.0.0:5000/search_user
+usage: ./8-json_api.py [letter only]
 """
+from sys import argv
 import requests
-import sys
 
 
-def search_api():
-    if len(sys.argv) == 1:
-        q = ""
+if __name__ == "__main__":
+    if len(argv) < 2:
+        letter = ""
     else:
-        q = sys.argv[1]
-
-    new_dict = {'q': q}
-    req = requests.post("http://0.0.0.0:5000/search_user", new_dict)
+        letter = argv[1]
+    url = 'http://0.0.0.0:5000/search_user'
+    payload = {'q': letter}
+    r = requests.post(url, data=payload)
 
     try:
-        user = req.json()
-        if user:
-            print("[{}] {}".format(user.get('id'), user.get('name')))
+        dic = r.json()
+        if dic:
+            print("[{}] {}".format(dic.get('id'), dic.get('name')))
         else:
             print("No result")
-    except:
+    except ValueError as e:
         print("Not a valid JSON")
-
-
-if __name__ == '__main__':
-    search_api()
