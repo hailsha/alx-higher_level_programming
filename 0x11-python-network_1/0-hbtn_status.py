@@ -10,6 +10,6 @@ def printStatus():
         print("\t- type: {}".format(type(printme)))
         print("\t- content: {}".format(printme))
         print("\t- utf8 content: {}".format(printme.decode('utf-8'))
+
 if __name__ == '__main__':
     printStatus()
-
