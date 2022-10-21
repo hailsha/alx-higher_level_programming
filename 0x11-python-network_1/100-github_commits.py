@@ -1,21 +1,22 @@
 #!/usr/bin/python3
 """
-Python script that shows the last 10 commits of a repository
-in GitHub
+Get the 10 most recent commits of the passed in repository
+of a given user, then display the sha and author name
+It's... apparently a Holberton School interview question
 """
-from requests import get, auth
+import requests
 import sys
 
 
-if __name__ == "__main__":
-    try:
-        repo = sys.argv[1]
-        owner = sys.argv[2]
-        url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo)
-        r = get(url)
-        json_o = r.json()
-        for i in range(0, 10):
-            print("{}: {}".format(json_o[i].get('sha'), json_o[i].get('commit')
-                                  .get('author').get('name')))
-    except:
-        pass
+def get_commits():
+    req = requests.get("https://api.github.com/repos/{}/{}/commits"
+                       .format(sys.argv[2], sys.argv[1]))
+
+    for recent_commit in req.json()[:10]:
+        print("{}: {}".format(recent_commit.get('sha'),
+                              recent_commit.get('commit')
+                              .get('author').get('name')))
+
+
+if __name__ == '__main__':
+    get_commits()
